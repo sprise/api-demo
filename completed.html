@@ -1,0 +1,51 @@
+<html>
+<head>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+	
+	<title>Javascript: Connecting to Web Services API</title>
+	
+	<style type="text/css">
+		body {background: #f0f0f0; padding-top: 5rem;}
+		h1 {text-align: center; color: #666;}
+		#main {text-align: center; font-size: 2rem; color: #666; max-width: 50rem; margin-left: auto; margin-right: auto;}
+		#main img {display: block; margin: 0 auto 1rem auto;}
+	</style>
+</head>
+
+<body>
+	<h1>Get a Random Chuck Norris Joke</h1>
+	<div id="main">
+		<!-- We'll populate this div with Javascript -->
+	</div>
+
+	<script type="text/javascript">
+		
+		// Create a new request object
+		var xmlHttp = new XMLHttpRequest();
+
+		// Every time the state changes, this will run
+		xmlHttp.onreadystatechange = function() { 
+			
+			// Catch the data when the page has been opened
+			if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
+				
+				// Parse it into legit JSON
+				var response = JSON.parse(xmlHttp.responseText);
+				
+				// Grab the wrapper element
+				var main_div = document.getElementById('main');
+				
+				// Insert a little HTML with our new data 
+				main_div.innerHTML = '<img src="'+response.icon_url+'" /> '+response.value;
+			}
+		}
+		
+		// Specify that this is a GET request and our API endpoint
+		xmlHttp.open("GET", 'https://api.chucknorris.io/jokes/random'); 
+		
+		// Go!
+		xmlHttp.send(null);
+	</script>
+</body>
+</html>
